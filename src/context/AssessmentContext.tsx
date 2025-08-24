@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { Question, StudentResponse, Assessment, GamingPattern } from '../types';
-import { adultHealth1Questions } from '../data/questionBank';
+import { adultHealth1Questions } from '../data/questionBankUpdated';
 
 interface AssessmentPhase {
   type: 'answer' | 'rationale' | 'locked' | 'complete';
@@ -214,7 +214,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
   };
 
   const lockAnswer = () => {
-    if (!selectedAnswer || phase.type !== 'answer') return;
+    if (!selectedAnswer || phase.type !== 'answer' || !currentQuestion || !currentAssessment) return;
     
     const lockTime = new Date();
     setLockedAnswer(selectedAnswer);
@@ -231,8 +231,8 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     const response: StudentResponse = {
       id: `response-${Date.now()}`,
       studentId: 'current-user',
-      questionId: currentQuestion!.id,
-      assessmentId: currentAssessment!.id,
+      questionId: currentQuestion.id,
+      assessmentId: currentAssessment.id,
       answerId: selectedAnswer,
       answerLockedAt: lockTime,
       timeOnQuestion: timeOnAnswer,

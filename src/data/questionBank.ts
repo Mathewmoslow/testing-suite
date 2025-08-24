@@ -101,29 +101,43 @@ export const adultHealth1Questions: Question[] = [
       {
         id: 'dm-002-r1',
         questionId: 'dm-002',
-        text: 'HHS is characterized by extreme hyperglycemia (>600 mg/dL), hyperosmolality (>350 mOsm/kg), and minimal or absent ketones, typically occurring in older adults with type 2 diabetes.',
+        text: 'This condition presents with severe elevation of serum glucose and osmolality with minimal ketone production, typically seen in elderly patients with underlying metabolic disorders.',
         isCorrect: true
       },
       {
         id: 'dm-002-r2',
         questionId: 'dm-002',
-        text: 'DKA presents with high glucose and is a diabetic emergency, matching most of these laboratory findings.',
+        text: 'The metabolic emergency indicated by these values requires immediate intervention to prevent neurological complications from severe dehydration.',
         isCorrect: false,
         distractorType: 'partial'
       },
       {
         id: 'dm-002-r3',
         questionId: 'dm-002',
-        text: 'Lactic acidosis can occur with metformin use and presents with confusion and metabolic changes.',
+        text: 'Medication-induced metabolic acidosis can present with altered mental status and requires discontinuation of the causative agent.',
         isCorrect: false,
         distractorType: 'plausible'
       },
       {
         id: 'dm-002-r4',
         questionId: 'dm-002',
-        text: 'SIADH causes hyponatremia and altered mental status, which explains the confusion.',
+        text: 'Hormonal imbalance affecting water regulation leads to dilutional effects and neurological symptoms.',
         isCorrect: false,
         distractorType: 'opposite'
+      },
+      {
+        id: 'dm-002-r5',
+        questionId: 'dm-002',
+        text: 'Acute kidney injury with uremic encephalopathy explains the elevated BUN and confusion in this elderly patient.',
+        isCorrect: false,
+        distractorType: 'plausible'
+      },
+      {
+        id: 'dm-002-r6',
+        questionId: 'dm-002',
+        text: 'The absence of significant acidosis despite metabolic derangement indicates a hyperosmolar state rather than ketoacidosis.',
+        isCorrect: false,
+        distractorType: 'partial'
       }
     ],
     ncgsCognitiveFunctions: ['analyze_cues', 'prioritize_hypotheses'],

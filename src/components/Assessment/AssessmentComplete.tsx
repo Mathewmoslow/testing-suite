@@ -27,7 +27,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAssessment } from '../../context/AssessmentContext';
-import { adultHealth1Questions } from '../../data/questionBank';
+import { adultHealth1Questions } from '../../data/questionBankUpdated';
 
 export const AssessmentComplete: React.FC = () => {
   const navigate = useNavigate();
