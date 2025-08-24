@@ -249,7 +249,16 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
   };
 
   const submitRationale = () => {
-    if (!selectedRationale || phase.type !== 'rationale' || !currentQuestion) return;
+    console.log('submitRationale called', { selectedRationale, phase, currentQuestionIndex, totalQuestions });
+    
+    if (!selectedRationale || phase.type !== 'rationale' || !currentQuestion) {
+      console.log('submitRationale early return:', { 
+        hasSelectedRationale: !!selectedRationale, 
+        phaseType: phase.type, 
+        hasCurrentQuestion: !!currentQuestion 
+      });
+      return;
+    }
     
     const now = new Date();
     const timeOnRationale = answerLockTime 
@@ -268,6 +277,8 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
       };
       setResponses(updatedResponses);
     }
+    
+    console.log('Moving to next question:', currentQuestionIndex + 1, 'of', totalQuestions);
     
     // Move to next question or complete
     if (currentQuestionIndex < totalQuestions - 1) {
@@ -327,10 +338,14 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
 
   const canProceed = () => {
     if (phase.type === 'answer') {
-      return selectedAnswer !== null;
+      const result = selectedAnswer !== null;
+      console.log('canProceed answer phase:', result, { selectedAnswer });
+      return result;
     }
     if (phase.type === 'rationale') {
-      return selectedRationale !== null;
+      const result = selectedRationale !== null;
+      console.log('canProceed rationale phase:', result, { selectedRationale });
+      return result;
     }
     return false;
   };

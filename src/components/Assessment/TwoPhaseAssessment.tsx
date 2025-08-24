@@ -358,7 +358,10 @@ export const TwoPhaseAssessment: React.FC = () => {
               color="secondary"
               size="large"
               disabled={!canProceed()}
-              onClick={submitRationale}
+              onClick={() => {
+                console.log('Submit button clicked', { selectedRationale, canProceed: canProceed() });
+                submitRationale();
+              }}
               endIcon={<NextIcon />}
             >
               {currentQuestionIndex < totalQuestions - 1 ? 'Submit Rationale & Next' : 'Submit & Complete'}
