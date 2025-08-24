@@ -65,14 +65,17 @@ export const TwoPhaseAssessment: React.FC = () => {
     if (phase.type === 'rationale' && phase.isLocked) {
       setShowPhaseTransition(true);
       setTimeout(() => setShowPhaseTransition(false), 2000);
-      
-      // Shuffle rationales when entering rationale phase
-      if (currentQuestion?.rationales) {
-        const shuffled = [...currentQuestion.rationales].sort(() => Math.random() - 0.5);
-        setShuffledRationales(shuffled);
-      }
     }
-  }, [phase, currentQuestion]);
+  }, [phase]);
+
+  // Separate effect for shuffling rationales
+  useEffect(() => {
+    if (currentQuestion?.rationales && currentQuestion.rationales.length > 0) {
+      const shuffled = [...currentQuestion.rationales].sort(() => Math.random() - 0.5);
+      setShuffledRationales(shuffled);
+      console.log('Rationales loaded:', currentQuestion.rationales.length, 'rationales for question', currentQuestion.id);
+    }
+  }, [currentQuestion]);
 
   // Show completion screen when assessment is complete
   if (phase.type === 'complete') {
@@ -305,7 +308,7 @@ export const TwoPhaseAssessment: React.FC = () => {
           )}
 
           {/* Phase 2: Rationale Selection */}
-          {phase.type === 'rationale' && (
+          {phase.type === 'rationale' && phase.isLocked && (
             <Fade in={true}>
               <Box>
                 <Typography variant="subtitle2" color="secondary" gutterBottom>
@@ -315,7 +318,7 @@ export const TwoPhaseAssessment: React.FC = () => {
                   value={selectedRationale || ''}
                   onChange={(e) => selectRationale(e.target.value)}
                 >
-                  {(shuffledRationales.length > 0 ? shuffledRationales : currentQuestion.rationales).map((rationale, index) => (
+                  {(shuffledRationales && shuffledRationales.length > 0 ? shuffledRationales : currentQuestion.rationales || []).map((rationale, index) => (
                     <FormControlLabel
                       key={rationale.id}
                       value={rationale.id}
@@ -349,7 +352,7 @@ export const TwoPhaseAssessment: React.FC = () => {
             </Button>
           )}
           
-          {phase.type === 'rationale' && (
+          {phase.type === 'rationale' && phase.isLocked && (
             <Button
               variant="contained"
               color="secondary"
@@ -358,7 +361,7 @@ export const TwoPhaseAssessment: React.FC = () => {
               onClick={submitRationale}
               endIcon={<NextIcon />}
             >
-              Submit Rationale & Next
+              {currentQuestionIndex < totalQuestions - 1 ? 'Submit Rationale & Next' : 'Submit & Complete'}
             </Button>
           )}
         </Box>
