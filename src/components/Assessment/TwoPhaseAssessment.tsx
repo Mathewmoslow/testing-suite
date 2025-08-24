@@ -62,7 +62,9 @@ export const TwoPhaseAssessment: React.FC = () => {
   const [shuffledRationales, setShuffledRationales] = useState<typeof currentQuestion.rationales>([]);
 
   useEffect(() => {
+    console.log('Component phase changed:', phase);
     if (phase.type === 'rationale' && phase.isLocked) {
+      console.log('Showing phase transition notification');
       setShowPhaseTransition(true);
       setTimeout(() => setShowPhaseTransition(false), 2000);
     }
@@ -100,8 +102,10 @@ export const TwoPhaseAssessment: React.FC = () => {
   };
 
   const handleLockAnswer = () => {
+    console.log('handleLockAnswer called in component');
     setShowLockConfirmation(false);
     lockAnswer();
+    console.log('lockAnswer function called, phase should change');
   };
 
   const getProgressColor = () => {

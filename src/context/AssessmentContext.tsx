@@ -107,6 +107,11 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     return () => clearInterval(interval);
   }, [currentAssessment, phase.type]);
 
+  // Debug phase changes
+  useEffect(() => {
+    console.log('Phase changed:', phase);
+  }, [phase]);
+
   // Gaming Pattern Detection
   const detectGamingPatterns = useCallback(() => {
     if (responses.length < 3) return;
@@ -214,9 +219,21 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
   };
 
   const lockAnswer = () => {
-    if (!selectedAnswer || phase.type !== 'answer' || !currentQuestion || !currentAssessment) return;
+    console.log('lockAnswer called', { selectedAnswer, phase, currentQuestion: !!currentQuestion, currentAssessment: !!currentAssessment });
+    
+    if (!selectedAnswer || phase.type !== 'answer' || !currentQuestion || !currentAssessment) {
+      console.log('lockAnswer early return', { 
+        hasSelectedAnswer: !!selectedAnswer, 
+        phaseType: phase.type,
+        hasCurrentQuestion: !!currentQuestion,
+        hasCurrentAssessment: !!currentAssessment
+      });
+      return;
+    }
     
     const lockTime = new Date();
+    console.log('Setting locked answer and transitioning to rationale phase');
+    
     setLockedAnswer(selectedAnswer);
     setAnswerLockTime(lockTime);
     setPhase({ type: 'rationale', canNavigate: false, isLocked: true });
@@ -241,6 +258,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     };
     
     setResponses(prev => [...prev, response]);
+    console.log('Answer locked, phase should now be rationale');
   };
 
   const selectRationale = (rationaleId: string) => {
