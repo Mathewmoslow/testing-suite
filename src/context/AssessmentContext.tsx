@@ -249,7 +249,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
   };
 
   const submitRationale = () => {
-    if (!selectedRationale || phase.type !== 'rationale') return;
+    if (!selectedRationale || phase.type !== 'rationale' || !currentQuestion) return;
     
     const now = new Date();
     const timeOnRationale = answerLockTime 
@@ -257,7 +257,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
       : 0;
     
     // Update response with rationale
-    const responseIndex = responses.findIndex(r => r.questionId === currentQuestion?.id);
+    const responseIndex = responses.findIndex(r => r.questionId === currentQuestion.id);
     if (responseIndex !== -1) {
       const updatedResponses = [...responses];
       updatedResponses[responseIndex] = {

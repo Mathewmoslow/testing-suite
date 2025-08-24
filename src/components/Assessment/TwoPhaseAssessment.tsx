@@ -35,6 +35,7 @@ import {
   Info as InfoIcon
 } from '@mui/icons-material';
 import { useAssessment } from '../../context/AssessmentContext';
+import { AssessmentComplete } from './AssessmentComplete';
 
 export const TwoPhaseAssessment: React.FC = () => {
   const {
@@ -58,13 +59,25 @@ export const TwoPhaseAssessment: React.FC = () => {
 
   const [showLockConfirmation, setShowLockConfirmation] = useState(false);
   const [showPhaseTransition, setShowPhaseTransition] = useState(false);
+  const [shuffledRationales, setShuffledRationales] = useState<typeof currentQuestion.rationales>([]);
 
   useEffect(() => {
     if (phase.type === 'rationale' && phase.isLocked) {
       setShowPhaseTransition(true);
       setTimeout(() => setShowPhaseTransition(false), 2000);
+      
+      // Shuffle rationales when entering rationale phase
+      if (currentQuestion?.rationales) {
+        const shuffled = [...currentQuestion.rationales].sort(() => Math.random() - 0.5);
+        setShuffledRationales(shuffled);
+      }
     }
-  }, [phase]);
+  }, [phase, currentQuestion]);
+
+  // Show completion screen when assessment is complete
+  if (phase.type === 'complete') {
+    return <AssessmentComplete />;
+  }
 
   if (!currentQuestion) {
     return (
@@ -302,7 +315,7 @@ export const TwoPhaseAssessment: React.FC = () => {
                   value={selectedRationale || ''}
                   onChange={(e) => selectRationale(e.target.value)}
                 >
-                  {currentQuestion.rationales.map((rationale, index) => (
+                  {(shuffledRationales.length > 0 ? shuffledRationales : currentQuestion.rationales).map((rationale, index) => (
                     <FormControlLabel
                       key={rationale.id}
                       value={rationale.id}

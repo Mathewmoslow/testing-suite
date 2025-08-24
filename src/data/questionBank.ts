@@ -34,27 +34,41 @@ export const adultHealth1Questions: Question[] = [
       {
         id: 'dm-001-r1',
         questionId: 'dm-001',
-        text: 'Fluid resuscitation is the priority to address dehydration and restore perfusion. Insulin therapy follows fluid replacement to prevent rapid glucose shifts that could lead to cerebral edema.',
+        text: 'The priority intervention addresses volume deficit and hemodynamic instability before correcting metabolic disturbances, as rapid correction without adequate hydration can lead to serious complications.',
         isCorrect: true
       },
       {
         id: 'dm-001-r2',
         questionId: 'dm-001',
-        text: 'Insulin is essential for treating DKA by stopping ketone production and lowering glucose, making it the most critical intervention.',
+        text: 'Immediate hormone administration is necessary to halt metabolic deterioration and prevent further complications in this acute endocrine emergency.',
         isCorrect: false,
         distractorType: 'partial'
       },
       {
         id: 'dm-001-r3',
         questionId: 'dm-001',
-        text: 'Bicarbonate administration corrects the acidosis directly and should be given immediately when pH is below 7.30.',
+        text: 'Direct pH correction should be initiated when laboratory values indicate severe acidemia to prevent cardiovascular collapse.',
         isCorrect: false,
         distractorType: 'common_misconception'
       },
       {
         id: 'dm-001-r4',
         questionId: 'dm-001',
-        text: 'Potassium replacement prevents hypokalemia that occurs with insulin administration, making it a priority intervention.',
+        text: 'Electrolyte supplementation must begin immediately to prevent cardiac dysrhythmias during treatment of this metabolic crisis.',
+        isCorrect: false,
+        distractorType: 'plausible'
+      },
+      {
+        id: 'dm-001-r5',
+        questionId: 'dm-001',
+        text: 'Monitoring and supportive care without aggressive intervention allows the body to self-correct metabolic imbalances.',
+        isCorrect: false,
+        distractorType: 'opposite'
+      },
+      {
+        id: 'dm-001-r6',
+        questionId: 'dm-001',
+        text: 'Simultaneous administration of all necessary medications ensures rapid stabilization of this life-threatening condition.',
         isCorrect: false,
         distractorType: 'plausible'
       }
