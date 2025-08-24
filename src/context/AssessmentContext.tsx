@@ -172,6 +172,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
   }, [responses, detectGamingPatterns]);
 
   const startAssessment = (assessmentId: string) => {
+    console.log('Starting assessment:', assessmentId);
     const mockAssessment: Assessment = {
       id: assessmentId,
       title: 'Adult Health 1 - Two-Phase Sequential Assessment',
@@ -198,6 +199,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     setPhaseStartTime(new Date());
     setGamingPatterns([]);
     setSuspiciousBehavior(false);
+    console.log('Assessment started, currentAssessment set');
   };
 
   const selectAnswer = (answerId: string) => {

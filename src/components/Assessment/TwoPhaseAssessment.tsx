@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -39,6 +40,7 @@ import { AssessmentComplete } from './AssessmentComplete';
 
 export const TwoPhaseAssessment: React.FC = () => {
   const {
+    currentAssessment,
     currentQuestion,
     currentQuestionIndex,
     totalQuestions,
@@ -54,12 +56,22 @@ export const TwoPhaseAssessment: React.FC = () => {
     canProceed,
     flagForReview,
     calculateProgress,
-    suspiciousBehavior
+    suspiciousBehavior,
+    startAssessment
   } = useAssessment();
 
+  const { id: assessmentId } = useParams<{ id: string }>();
   const [showLockConfirmation, setShowLockConfirmation] = useState(false);
   const [showPhaseTransition, setShowPhaseTransition] = useState(false);
   const [shuffledRationales, setShuffledRationales] = useState<typeof currentQuestion.rationales>([]);
+
+  // Start assessment if not started
+  useEffect(() => {
+    if (!currentAssessment && assessmentId) {
+      console.log('No current assessment, starting assessment:', assessmentId);
+      startAssessment(assessmentId);
+    }
+  }, [currentAssessment, assessmentId, startAssessment]);
 
   useEffect(() => {
     console.log('Component phase changed:', phase);
