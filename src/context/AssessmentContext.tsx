@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { Question, StudentResponse, Assessment, GamingPattern } from '../types';
 import { adultHealth1Questions } from '../data/questionBankUpdated';
+import { dataService } from '../services/dataService';
+import { useAuth } from './AuthContext';
 
 interface AssessmentPhase {
   type: 'answer' | 'rationale' | 'locked' | 'complete';
@@ -63,6 +65,7 @@ interface AssessmentProviderProps {
 }
 
 export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children }) => {
+  const { user } = useAuth();
   // Core Assessment State
   const [currentAssessment, setCurrentAssessment] = useState<Assessment | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -71,6 +74,7 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     canNavigate: true,
     isLocked: false
   });
+  const [assessmentStartTime, setAssessmentStartTime] = useState<Date | null>(null);
   
   // Response State
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -195,8 +199,10 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
     setResponses([]);
     setTimeSpent(0);
     setTimeRemaining(3600);
-    setQuestionStartTime(new Date());
-    setPhaseStartTime(new Date());
+    const startTime = new Date();
+    setAssessmentStartTime(startTime);
+    setQuestionStartTime(startTime);
+    setPhaseStartTime(startTime);
     setGamingPatterns([]);
     setSuspiciousBehavior(false);
     console.log('Assessment started, currentAssessment set');
@@ -335,7 +341,24 @@ export const AssessmentProvider: React.FC<AssessmentProviderProps> = ({ children
       console.warn('Gaming patterns detected:', gamingPatterns);
     }
     
-    // Save to backend
+    // Save assessment results to localStorage via dataService
+    if (currentAssessment && assessmentStartTime && user) {
+      const endTime = new Date();
+      const result = dataService.saveAssessmentResult(
+        currentAssessment.id,
+        user.id,
+        user.name,
+        responses,
+        gamingPatterns,
+        assessmentStartTime,
+        endTime,
+        totalTimeSpent,
+        questions
+      );
+      
+      console.log('Assessment saved:', result);
+    }
+    
     console.log('Assessment completed:', {
       responses,
       totalTimeSpent,
